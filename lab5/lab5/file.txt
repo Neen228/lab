@@ -1,0 +1,8 @@
+7
+mazda,gas,10.2
+mercedes,name,23.4
+honda,alex,1.2
+jigul,ivan,133.4
+skods,nikolay,69.4
+kia,amel,304.4
+haval,oleg,231.3

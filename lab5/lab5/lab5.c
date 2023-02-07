@@ -7,6 +7,7 @@ void fprint_struct(Car *cars, int len) {
     FILE *fp = fopen(output, "w");
     for (int i = 0; i < len; i++) 
         fprintf(fp, "%s,%s,%f\n", (cars[i]).brand, cars[i].name, cars[i].mileage);
+    free(output);
 } 
 
 
