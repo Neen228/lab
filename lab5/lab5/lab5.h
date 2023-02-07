@@ -13,7 +13,7 @@ typedef struct Car {
     float mileage;
 } Car;
 
-void fprint_struct(FILE *fp, Car *cars, int len);
+void fprint_struct(Car *cars, int len);
 
 
 

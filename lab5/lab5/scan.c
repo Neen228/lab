@@ -69,7 +69,7 @@ int is_mileage(char *str) {
 
 int get_file(Car **cars, int *len) {
     FILE *fp;
-    char *input = readline("input file name\n");
+    char *input = readline("input file name:");
     fp = fopen(input, "r");
     if (fp == NULL) {
         fprintf(stderr, "invalid file\n");
