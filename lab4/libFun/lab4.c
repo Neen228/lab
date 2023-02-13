@@ -2,6 +2,8 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <stdlib.h>
+#include <time.h>
+
 
 char *inv_str(char *str) {
     size_t index = strlen(str) - 1;
@@ -39,12 +41,16 @@ char* words(const char *str) {
 	
 int main() {
 	char *input;
+    clock_t start, end;
     while ((input = readline("write string:")) != NULL) {
+        start = clock();
         char *inv = words(input);
         printf("\"%s\"\n", input);
         printf("\"%s\"\n", inv);
         free(input);
         free(inv);
+        end = clock();
+        printf("%lf\n",(double)(end - start) / (CLOCKS_PER_SEC));
     }
     return 0;
 }
