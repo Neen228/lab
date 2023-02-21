@@ -6,7 +6,7 @@ int is_op(char c) {
     return 0;
 }
   
-Str *enter_str(Str **last) {
+List *enter_str(List *list) {
     int flag = 0;
     Str *tmp = (Str*)malloc(sizeof(Str)), *pointer = NULL;
     Str *save_ptr = tmp;
@@ -26,15 +26,16 @@ Str *enter_str(Str **last) {
         }
         else {
             printf("invalid input");
-            free_str(save_ptr);
+            free_str(list);
             return NULL;
         }
     }
     free(pointer);
 	tmp = prev;
     tmp->next = NULL;
-    (*last) = tmp;
-    return save_ptr;
+    list->tail = tmp;
+    list->head = save_ptr;
+    return list;
 }
 
 
@@ -56,16 +57,16 @@ Str *int_list(int number) {
 
 
 
-void print_str(Str* save_ptr) {
-    Str *tmp = save_ptr;
+void print_str(List *list) {
+    Str *tmp = list->head;
     while (tmp != NULL) {
         putchar(tmp->digit);
         tmp = tmp->next;
     }
 }
   
-int number_list(Str *list, Str **point) {
-    Str *tmp = list;
+int number_list(Str *string, Str **point) {
+    Str *tmp = string;
     int number = 0;
     while ((tmp != NULL) && (is_digit(tmp->digit))){
         number *= 10;
@@ -79,8 +80,8 @@ int number_list(Str *list, Str **point) {
  
  
 
-int result(Str *first) {
-    Str *tmp = first, *point = NULL;
+int result(List *list) {
+    Str *tmp = list->head, *point = NULL;
     int res = 0, number;
     number = number_list(tmp, &point);
     res += number;
@@ -99,31 +100,32 @@ int result(Str *first) {
     return res;
 }
 
-void add_elem(Str* stroka, Str **last, char c) {
+void add_elem(List *list, char c) {
     Str *tmp = (Str*)malloc(sizeof(Str));
     tmp->digit = c;
     tmp->next = NULL;
-    (*last)->next = tmp;
-    (*last) = tmp;
+    list->tail->next = tmp;
+    list->tail = tmp;
 }
 
-int task(void) { 
-    Str *tail = NULL;    
-    Str *string = enter_str(&tail);   
-    if (string == NULL)
+int task(void) {
+    List *list = (List *)malloc(sizeof(List)); 
+    list->tail = NULL;    
+    list = enter_str(list);   
+    if (list == NULL)
         return 1;
-    int res = result(string);
+    int res = result(list);
     if (res < 0) {
         res = -res;
-        add_elem(string, &tail, '=');
-        add_elem(string, &tail, '-');
+        add_elem(list, '=');
+        add_elem(list, '-');
     }
     else 
-        add_elem(string, &tail, '=');
+        add_elem(list, '=');
     Str *result = int_list(res);
-    concatenate(string, tail, result);
-    print_str(string);
-    free_str(string);
+    concatenate(list, result);
+    print_str(list);
+    free_str(list);
     return 0;
 }
 
@@ -134,19 +136,20 @@ int is_digit(char c) {
     return 0;
 }
 
-void concatenate(Str *dest, Str *last, Str *src) {
-    last->next = src;
+void concatenate(List *list, Str *src) {
+    list->tail->next = src;
 }
 
 
 
 
-void free_str(Str* string) {
-    Str *tmp = string, *tmp_prev;
+void free_str(List *list) {
+    Str *tmp = list->head, *tmp_prev;
     while (tmp != NULL) {
         tmp_prev = tmp;
         tmp = tmp->next;
         free(tmp_prev);
     }
+    free(list);
 }
 

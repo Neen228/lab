@@ -9,17 +9,23 @@ typedef struct Str {
     struct Str *next;
 } Str;
 
+typedef struct List {
+    Str *head;
+    Str *tail;
+} List;
+
+
 int is_digit(char c);
 int is_op(char c);
 int task(void);
-void concatenate(Str *dest, Str *last, Str *src);
-void free_str(Str *save_ptr);
-void pirnt_str(Str *save_ptr);
-void add_elem(Str *stroka, Str **last, char c);
-Str *enter_str(Str **last);
+void concatenate(List *list, Str *src);
+void free_str(List *list);
+void pirnt_str(List *list);
+void add_elem(List *list, char c);
+List *enter_str(List *list);
 Str *int_list(int number);
 int number_list(Str *list, Str **point);
-int result(Str *first);
+int result(List *list);
 
 #endif
 
