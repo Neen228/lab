@@ -3,6 +3,8 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
+
 
 size_t str_len(const char *s);
 
@@ -10,17 +12,19 @@ char* str_cat(char *restrict dest, const char *restrict src);
 
 char * str_dup (const char *s);
 
-char *invert_str(char *str);
+char *inv_str(char *str);
 
-char * read_line (char *prompt);
+char *read_line (char *prompt);
 
 char *str_tok(char *srcString, char *delim);
 
-char*  print_words(const char *str);
+char *print_words(const char *str);
 
 size_t is_delim(char c, char *delim);
 
 char *mem_cpy(void *restrict dest, const void *restrict src, size_t n);
+
+char* words(const char *str);
 
 #endif 
 
