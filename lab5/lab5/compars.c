@@ -2,12 +2,12 @@
 
 
 int cmp_mile(const Car *car1, const Car  *car2) {
-    return car1->mileage - car2->mileage;
+    return (car1->mileage - car2->mileage);
 }
 
 
 int cmp_mile_rev(const Car *car1, const Car *car2) {
-    return car2->mileage - car1->mileage;
+    return -(car1->mileage - car2->mileage);
 }
 
 

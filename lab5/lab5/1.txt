@@ -1,0 +1,4 @@
+3
+mazda,sarmod,12.300000
+dsfds,svsdvd,12.900000
+wfea,aefrer,1.200000

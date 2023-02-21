@@ -1,0 +1,7 @@
+jigul,ivan,133.399994
+kia,amel,304.399994
+skods,nikolay,69.400002
+mercedes,name,23.400000
+mazda,gas,10.200000
+honda,alex,1.200000
+haval,oleg,231.300003

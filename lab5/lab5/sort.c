@@ -31,16 +31,17 @@ void ins_sort(Car *cars, int len, int(*compar)(const Car *, const Car*)) {
 
 
 
+
 void comb_sort(Car *cars, int len, int(*compar)(const Car *, const Car *)) {	
     Car tmp;
 	int s = len, k; 
 	while(len > 1) {
-		s /= 1.247f; 
+		s /= 1.247; 
         if (s < 1) 
             s = 1;
 		k = 0; 
 		for (int i = 0; i + s < len; ++i) { 
-			if (compar(&cars[i], &cars[i + s])) {
+			if (compar(&cars[i], &cars[i + s]) > 0) {
 				tmp = cars[i];
 				cars[i] = cars[i + s];
 				cars[i + s] = tmp; 	

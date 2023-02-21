@@ -2,6 +2,9 @@
 #include "lab5.h"
 #include "compars.h"
 #include "sort.h"
+#include "gen.h"
+#include <time.h>
+
 
 
 int scan_opt (int *x,int opt) {
@@ -39,7 +42,8 @@ void srt_q_own(Car *cars, int len, int rev) {
         qsort(cars, len, sizeof(Car), (int (*)(const void *, const void *)) cmp_name_rev);
 }
 
-void srt_q(Car *cars,int len, int comp, int rev) {
+double srt_q(Car *cars,int len, int comp, int rev) {
+    clock_t start = clock();
     switch (comp) {
         case 1:
             srt_q_brand(cars, len, rev);
@@ -51,6 +55,8 @@ void srt_q(Car *cars,int len, int comp, int rev) {
             srt_q_mile(cars, len, rev);
             break;
     }
+    clock_t end = clock();
+    return (double)(end - start) / CLOCKS_PER_SEC;
 }
 
 
@@ -77,7 +83,8 @@ void srt_comb_own(Car *cars, int len, int rev) {
 }
 
 
-void srt_comb(Car *cars,int len, int comp, int rev) {
+double srt_comb(Car *cars,int len, int comp, int rev) {
+    clock_t start = clock();
     switch (comp) {
         case 1:
             srt_comb_brand(cars, len, rev);
@@ -89,6 +96,8 @@ void srt_comb(Car *cars,int len, int comp, int rev) {
             srt_comb_mile(cars, len, rev);
             break;
     }
+    clock_t end = clock();
+    return (double)(end - start) / CLOCKS_PER_SEC;
 }
 
 
@@ -117,7 +126,8 @@ void srt_bin_own(Car *cars, int len, int rev) {
 }
 
 
-void srt_bin(Car *cars,int len, int comp, int rev) {
+double srt_bin(Car *cars,int len, int comp, int rev) {
+    clock_t start = clock();
     switch (comp) {
         case 1:
             srt_bin_brand(cars, len, rev);
@@ -129,35 +139,45 @@ void srt_bin(Car *cars,int len, int comp, int rev) {
             srt_bin_mile(cars, len, rev);
             break;
     }
+    clock_t end = clock();
+    return (double)(end - start) / CLOCKS_PER_SEC;
 }
 
 
 
 
-int srt(int sort, int comp, int rev) {
-    Car *cars = NULL;
-    int len = 0;
-    if (get_file(&cars, &len))
-        return 2;
-    switch (sort) {
-        case 1:
-            srt_q(cars, len, comp, rev);
-            break;    
-        case 2:
-            srt_comb(cars, len, comp, rev);
-            break;
-        case 3: 
-            srt_bin(cars, len, comp, rev);
-            break;
+int srt(int sort, int comp, int rev, int numStruct, int numElem) {
+    Car *cars = (Car *)calloc(numElem, sizeof(Car));
+    int len = numElem;
+    double time = 0;
+    for (int j = 0; j < numStruct; j++) {
+        for (int i = 0; i < numElem; i++)
+            getElem(cars, i);
+        for (int k = 0; k < numElem; k++)
+        switch (sort) {
+            case 1:
+                time += srt_q(cars, len, comp, rev);
+                break;    
+            case 2:
+                time += srt_comb(cars, len, comp, rev);
+                break;
+            case 3: 
+                time += srt_bin(cars, len, comp, rev);
+                break;
+        }
     }
-    fprint_struct(cars, len);
+    time = time / numStruct;
+    printf("sorted in %lf\n", time);
+    free(cars);
     return 0;
 }
 
 
 
 int main(void) {
-    int x, sort, comp, rev;
+    int x, sort, comp, rev, numStruct, numElem;
+    printf("Enter num of arrays and num of elements\n");
+    scanf("%d%d", &numStruct, &numElem);
     printf("Choose sort\n");
     printf("1:qsotr\n2:comb sort\n3:insert sort with binary search\nanoter to exit\n");
     if (scan_opt(&x, 3))
@@ -172,9 +192,7 @@ int main(void) {
     if (scan_opt(&x, 2))
         return 1;
     rev = x;
-    srt(sort, comp, rev);
-
+    srt(sort, comp, rev, numStruct, numElem);
     return 0;
 }
-
 
