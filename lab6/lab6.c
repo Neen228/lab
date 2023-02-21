@@ -8,7 +8,7 @@ int is_op(char c) {
   
 List *enter_str(List *list) {
     int flag = 0;
-    Str *tmp = (Str*)malloc(sizeof(Str)), *pointer = NULL;
+    Str *tmp = (Str*)calloc(1, sizeof(Str)), *pointer = NULL;
     Str *save_ptr = tmp;
     char c = 'f';
 	Str *prev = NULL;
@@ -18,7 +18,7 @@ List *enter_str(List *list) {
                 flag += 1;
             if (is_digit(c))
                 flag = 0;
-            pointer = (Str*)malloc(sizeof(Str));
+            pointer = (Str*)calloc(1, sizeof(Str));
             tmp->digit = c;
             tmp->next = pointer;
 		    prev = tmp;
@@ -27,8 +27,14 @@ List *enter_str(List *list) {
         else {
             printf("invalid input");
             free_str(list);
+            free(tmp);
             return NULL;
         }
+    }
+    if (tmp == save_ptr) {
+        free(tmp);
+        free(list);
+        exit(1);
     }
     free(pointer);
 	tmp = prev;
@@ -144,7 +150,7 @@ void concatenate(List *list, Str *src) {
 
 
 void free_str(List *list) {
-    Str *tmp = list->head, *tmp_prev;
+    Str *tmp = list->head, *tmp_prev = NULL;
     while (tmp != NULL) {
         tmp_prev = tmp;
         tmp = tmp->next;
